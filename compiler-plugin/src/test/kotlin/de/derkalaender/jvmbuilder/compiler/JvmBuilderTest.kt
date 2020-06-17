@@ -6,12 +6,13 @@ import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import org.jetbrains.kotlin.config.JvmTarget
 
 class JvmBuilderTest : StringSpec() {
   private val jvmBuilderAnnotation =
       kotlin(
-          "JvmBuilderAnnotation.kt",
+          "JvmBuilder.kt",
           """
           package de.derkalaender.jvmbuilder.test
           
@@ -25,14 +26,15 @@ class JvmBuilderTest : StringSpec() {
       val result =
           compile(
               kotlin(
-                  "JvmBuilder.kt",
+                  "NonDataClass.kt",
                   """
                   package de.derkalaender.jvmbuilder.test
           
                   @JvmBuilder
-                  class Test(val test: String)
+                  class NonDataClass
                   """.trimIndent()))
-      result.exitCode shouldBe KotlinCompilation.ExitCode.OK
+      result.exitCode shouldBe KotlinCompilation.ExitCode.COMPILATION_ERROR
+      result.messages shouldContain "NonDataClass.kt: (3, 1): @JvmBuilder is only supported on data classes!"
     }
   }
 

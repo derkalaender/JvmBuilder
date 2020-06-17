@@ -11,6 +11,6 @@ class JvmBuilderCodegenExtension(
   override fun generateClassSyntheticParts(codegen: ImplementationBodyCodegen) {
     val targetClass = codegen.descriptor
 
-    val classIsApplicable = targetClass.isJvmBuilderApplicable(fqJvmBuilderAnnotation)
+    if (!targetClass.isJvmBuilderApplicable(fqJvmBuilderAnnotation, messageCollector)) return
   }
 }
