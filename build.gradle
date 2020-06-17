@@ -6,11 +6,21 @@ plugins {
 subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "com.diffplug.gradle.spotless"
+
     spotless {
         kotlin {
             ktlint()
         }
+    }
 
+    dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
     }
 }
 
