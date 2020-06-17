@@ -12,7 +12,5 @@ class JvmBuilderCodegenExtension(
     val targetClass = codegen.descriptor
 
     val classIsApplicable = targetClass.isJvmBuilderApplicable(fqJvmBuilderAnnotation)
-
-    println(classIsApplicable)
   }
 }
