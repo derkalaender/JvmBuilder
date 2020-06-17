@@ -9,7 +9,7 @@ subprojects {
 
     spotless {
         kotlin {
-            ktlint()
+            ktfmt()
         }
     }
 

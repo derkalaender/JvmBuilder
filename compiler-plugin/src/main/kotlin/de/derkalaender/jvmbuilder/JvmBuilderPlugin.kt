@@ -7,7 +7,9 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 
 @AutoService(ComponentRegistrar::class)
 class JvmBuilderPlugin : ComponentRegistrar {
-    override fun registerProjectComponents(project: MockProject, configuration: CompilerConfiguration) {
-        TODO("Not yet implemented")
-    }
+  override fun registerProjectComponents(
+      project: MockProject, configuration: CompilerConfiguration
+  ) {
+    TODO("Not yet implemented")
+  }
 }
