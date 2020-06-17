@@ -17,9 +17,8 @@ class JvmBuilderTest : StringSpec() {
           """
           package de.derkalaender.jvmbuilder.test
           
-          import kotlin.annotation.AnnotationRetention
-          
           @Retention(AnnotationRetention.BINARY)
+          @Target(AnnotationTarget.CLASS)
           annotation class JvmBuilder
           """.trimIndent())
 
