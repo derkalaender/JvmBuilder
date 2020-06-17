@@ -13,6 +13,11 @@ subprojects {
         }
     }
 
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
     }
