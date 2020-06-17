@@ -1,9 +1,7 @@
-package de.derkalaender.jvmbuilder.compiler.codegen
+package de.derkalaender.jvmbuilder.compiler
 
 import com.google.auto.service.AutoService
 import de.derkalaender.jvmbuilder.compiler.codegen.JvmBuilderCodegenExtension
-import de.derkalaender.jvmbuilder.compiler.codegen.KEY_ENABLED
-import de.derkalaender.jvmbuilder.compiler.codegen.KEY_JVM_BUILDER_ANNOTATION
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.codegen.extensions.ExpressionCodegenExtension

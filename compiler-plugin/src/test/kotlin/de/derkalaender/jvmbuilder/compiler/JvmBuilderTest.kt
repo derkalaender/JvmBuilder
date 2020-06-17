@@ -4,8 +4,6 @@ import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.PluginOption
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
-import de.derkalaender.jvmbuilder.compiler.codegen.JvmBuilderCommandLineProcessor
-import de.derkalaender.jvmbuilder.compiler.codegen.JvmBuilderPlugin
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.config.JvmTarget
