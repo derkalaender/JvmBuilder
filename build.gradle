@@ -1,0 +1,21 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "$KOTLIN_VERSION" apply false
+    id "com.diffplug.gradle.spotless" version "$SPOTLESS_VERSION"
+}
+
+subprojects {
+    apply plugin: "org.jetbrains.kotlin.jvm"
+    apply plugin: "com.diffplug.gradle.spotless"
+    spotless {
+        kotlin {
+            ktlint()
+        }
+
+    }
+}
+
+spotless {
+    groovyGradle {
+        target "*.gradle"
+    }
+}
