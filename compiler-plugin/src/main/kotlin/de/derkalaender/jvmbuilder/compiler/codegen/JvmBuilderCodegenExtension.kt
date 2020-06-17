@@ -1,4 +1,4 @@
-package de.derkalaender.jvmbuilder.codegen
+package de.derkalaender.jvmbuilder.compiler.codegen
 
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.codegen.ImplementationBodyCodegen

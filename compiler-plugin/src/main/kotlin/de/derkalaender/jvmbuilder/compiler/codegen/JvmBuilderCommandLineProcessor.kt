@@ -1,4 +1,4 @@
-package de.derkalaender.jvmbuilder
+package de.derkalaender.jvmbuilder.compiler.codegen
 
 import com.google.auto.service.AutoService
 import org.jetbrains.kotlin.compiler.plugin.AbstractCliOption

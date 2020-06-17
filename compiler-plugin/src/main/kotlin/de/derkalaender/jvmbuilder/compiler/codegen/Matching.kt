@@ -1,4 +1,4 @@
-package de.derkalaender.jvmbuilder.codegen
+package de.derkalaender.jvmbuilder.compiler.codegen
 
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.name.FqName
