@@ -3,6 +3,7 @@ package de.derkalaender.jvmbuilder.compiler
 import com.google.auto.service.AutoService
 import org.jetbrains.kotlin.compiler.plugin.AbstractCliOption
 import org.jetbrains.kotlin.compiler.plugin.CliOption
+import org.jetbrains.kotlin.compiler.plugin.CliOptionProcessingException
 import org.jetbrains.kotlin.compiler.plugin.CommandLineProcessor
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
@@ -41,6 +42,6 @@ class JvmBuilderCommandLineProcessor : CommandLineProcessor {
         OptionNames.ENABLED -> configuration.put(CompilerKeys.ENABLED, value.toBoolean())
         OptionNames.JVM_BUILDER_ANNOTATION ->
             configuration.put(CompilerKeys.JVM_BUILDER_ANNOTATION, value)
-        else -> error("Unknown plugin option: ${option.optionName}")
+        else -> throw CliOptionProcessingException("Unknown plugin option: ${option.optionName}")
       }
 }
