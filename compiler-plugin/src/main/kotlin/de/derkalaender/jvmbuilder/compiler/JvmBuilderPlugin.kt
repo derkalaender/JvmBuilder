@@ -15,11 +15,11 @@ class JvmBuilderPlugin : ComponentRegistrar {
   override fun registerProjectComponents(
       project: MockProject, configuration: CompilerConfiguration
   ) {
-    if (configuration[KEY_ENABLED] == false) return
+    if (configuration[CompilerKeys.ENABLED] == false) return
 
     val messageCollector =
         configuration.get(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE)
-    val jvmBuilderAnnotation = checkNotNull(configuration[KEY_JVM_BUILDER_ANNOTATION])
+    val jvmBuilderAnnotation = checkNotNull(configuration[CompilerKeys.JVM_BUILDER_ANNOTATION])
     val fqJvmBuilderAnnotation = FqName(jvmBuilderAnnotation)
 
     ExpressionCodegenExtension.registerExtension(

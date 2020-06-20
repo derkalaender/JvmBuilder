@@ -7,9 +7,15 @@ import org.jetbrains.kotlin.compiler.plugin.CommandLineProcessor
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
-internal val KEY_ENABLED = CompilerConfigurationKey<Boolean>("enabled")
+object OptionNames {
+  const val ENABLED = "enabled"
+  const val JVM_BUILDER_ANNOTATION = "jvmBuilderAnnotation"
+}
 
-internal val KEY_JVM_BUILDER_ANNOTATION = CompilerConfigurationKey<String>("jvmBuilderAnnotation")
+object CompilerKeys {
+  val ENABLED = CompilerConfigurationKey<Boolean>(OptionNames.ENABLED)
+  val JVM_BUILDER_ANNOTATION = CompilerConfigurationKey<String>(OptionNames.JVM_BUILDER_ANNOTATION)
+}
 
 @AutoService(CommandLineProcessor::class)
 class JvmBuilderCommandLineProcessor : CommandLineProcessor {
@@ -17,15 +23,24 @@ class JvmBuilderCommandLineProcessor : CommandLineProcessor {
 
   override val pluginOptions =
       listOf(
-          CliOption("enabled", "<true | false>", "", true),
-          CliOption("jvmBuilderAnnotation", "String", "", true))
+          CliOption(
+              optionName = "enabled",
+              valueDescription = "<true | false>",
+              description = "Whether or not this compiler plugin is enabled.",
+              required = true),
+          CliOption(
+              optionName = "jvmBuilderAnnotation",
+              valueDescription = "String",
+              description = "A fully qualified name of the @JvmBuilder annotation to look for.",
+              required = true))
 
   override fun processOption(
       option: AbstractCliOption, value: String, configuration: CompilerConfiguration
   ) =
       when (option.optionName) {
-        "enabled" -> configuration.put(KEY_ENABLED, value.toBoolean())
-        "jvmBuilderAnnotation" -> configuration.put(KEY_JVM_BUILDER_ANNOTATION, value)
+        OptionNames.ENABLED -> configuration.put(CompilerKeys.ENABLED, value.toBoolean())
+        OptionNames.JVM_BUILDER_ANNOTATION ->
+            configuration.put(CompilerKeys.JVM_BUILDER_ANNOTATION, value)
         else -> error("Unknown plugin option: ${option.optionName}")
       }
 }
