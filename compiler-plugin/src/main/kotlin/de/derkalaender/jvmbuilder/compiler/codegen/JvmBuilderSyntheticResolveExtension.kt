@@ -20,57 +20,57 @@ import org.jetbrains.kotlin.resolve.extensions.SyntheticResolveExtension
 import org.jetbrains.kotlin.resolve.source.getPsi
 
 class JvmBuilderSyntheticResolveExtension(
-  private val messageCollector: MessageCollector, private val fqJvmBuilderAnnotation: FqName
+    private val messageCollector: MessageCollector, private val fqJvmBuilderAnnotation: FqName
 ) : SyntheticResolveExtension, AnnotationBasedExtension {
   override fun getAnnotationFqNames(modifierListOwner: KtModifierListOwner?) =
-    listOf(fqJvmBuilderAnnotation.toString())
+      listOf(fqJvmBuilderAnnotation.toString())
 
   override fun generateSyntheticMethods(
-    thisDescriptor: ClassDescriptor,
-    name: Name,
-    bindingContext: BindingContext,
-    fromSupertypes: List<SimpleFunctionDescriptor>,
-    result: MutableCollection<SimpleFunctionDescriptor>
+      thisDescriptor: ClassDescriptor,
+      name: Name,
+      bindingContext: BindingContext,
+      fromSupertypes: List<SimpleFunctionDescriptor>,
+      result: MutableCollection<SimpleFunctionDescriptor>
   ) {
     super.generateSyntheticMethods(thisDescriptor, name, bindingContext, fromSupertypes, result)
 
-    if(name.asString() != "test") return
+    if (name.asString() != "test") return
     if (!thisDescriptor.hasSpecialAnnotation(null)) return
 
     println(name)
 
     messageCollector.report(
-      CompilerMessageSeverity.INFO,
-      "@JvmBuilder > Processing annotated class ${thisDescriptor.name}",
-      MessageUtil.psiElementToMessageLocation(thisDescriptor.source.getPsi())
-    )
+        CompilerMessageSeverity.INFO,
+        "@JvmBuilder > Processing annotated class ${thisDescriptor.name}",
+        MessageUtil.psiElementToMessageLocation(thisDescriptor.source.getPsi()))
 
     if (!thisDescriptor.isData) {
       messageCollector.report(
-        CompilerMessageSeverity.ERROR,
-        "@JvmBuilder > Only data classes are supported!",
-        MessageUtil.psiElementToMessageLocation(thisDescriptor.source.getPsi())
-      )
+          CompilerMessageSeverity.ERROR,
+          "@JvmBuilder > Only data classes are supported!",
+          MessageUtil.psiElementToMessageLocation(thisDescriptor.source.getPsi()))
       return
     }
 
-    result += SimpleFunctionDescriptorImpl.create(
-      thisDescriptor,
-      Annotations.EMPTY,
-      name,
-      CallableMemberDescriptor.Kind.SYNTHESIZED,
-      thisDescriptor.source
-    ).initialize(
-      null,
-      thisDescriptor.thisAsReceiverParameter,
-      emptyList(),
-      emptyList(),
-      thisDescriptor.builtIns.stringType,
-      Modality.OPEN,
-      Visibilities.PUBLIC
-    )
+    result +=
+        SimpleFunctionDescriptorImpl.create(
+            thisDescriptor,
+            Annotations.EMPTY,
+            name,
+            CallableMemberDescriptor.Kind.SYNTHESIZED,
+            thisDescriptor.source)
+            .initialize(
+                null,
+                thisDescriptor.thisAsReceiverParameter,
+                emptyList(),
+                emptyList(),
+                thisDescriptor.builtIns.stringType,
+                Modality.OPEN,
+                Visibilities.PUBLIC)
   }
 
   override fun getSyntheticFunctionNames(thisDescriptor: ClassDescriptor) =
-    if (thisDescriptor.hasSpecialAnnotation(null) && thisDescriptor.isData) listOf(Name.identifier("test")) else emptyList()
+      if (thisDescriptor.hasSpecialAnnotation(null) && thisDescriptor.isData)
+          listOf(Name.identifier("test"))
+      else emptyList()
 }

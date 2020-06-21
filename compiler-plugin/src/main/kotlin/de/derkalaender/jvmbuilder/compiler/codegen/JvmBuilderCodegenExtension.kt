@@ -19,10 +19,10 @@ import org.jetbrains.org.objectweb.asm.Opcodes
 import org.jetbrains.org.objectweb.asm.commons.InstructionAdapter
 
 class JvmBuilderCodegenExtension(
-  private val messageCollector: MessageCollector, private val fqJvmBuilderAnnotation: FqName
+    private val messageCollector: MessageCollector, private val fqJvmBuilderAnnotation: FqName
 ) : ExpressionCodegenExtension, AnnotationBasedExtension {
   override fun getAnnotationFqNames(modifierListOwner: KtModifierListOwner?) =
-    listOf(fqJvmBuilderAnnotation.toString())
+      listOf(fqJvmBuilderAnnotation.toString())
 
   override fun generateClassSyntheticParts(codegen: ImplementationBodyCodegen) {
     val targetClass = codegen.descriptor
@@ -30,34 +30,34 @@ class JvmBuilderCodegenExtension(
     if (!targetClass.hasSpecialAnnotation(null)) return
 
     messageCollector.report(
-      CompilerMessageSeverity.INFO,
-      "@JvmBuilder > Processing annotated class ${targetClass.name}",
-      MessageUtil.psiElementToMessageLocation(targetClass.source.getPsi())
-    )
+        CompilerMessageSeverity.INFO,
+        "@JvmBuilder > Processing annotated class ${targetClass.name}",
+        MessageUtil.psiElementToMessageLocation(targetClass.source.getPsi()))
 
     if (!targetClass.isData) {
       messageCollector.report(
-        CompilerMessageSeverity.ERROR,
-        "@JvmBuilder > Only data classes are supported!",
-        MessageUtil.psiElementToMessageLocation(targetClass.source.getPsi())
-      )
+          CompilerMessageSeverity.ERROR,
+          "@JvmBuilder > Only data classes are supported!",
+          MessageUtil.psiElementToMessageLocation(targetClass.source.getPsi()))
       return
     }
 
     val constructor = targetClass.constructors.firstOrNull { it.isPrimary } ?: return
     val properties =
-      constructor.valueParameters.mapNotNull {
-        codegen.bindingContext.get(BindingContext.VALUE_PARAMETER_AS_PROPERTY, it)
-      }.map { BuilderProperty(it) }
+        constructor.valueParameters
+            .mapNotNull {
+              codegen.bindingContext.get(BindingContext.VALUE_PARAMETER_AS_PROPERTY, it)
+            }
+            .map { BuilderProperty(it) }
 
     val builder = codegen.v
 
-    val function = targetClass.unsubstitutedMemberScope.getContributedFunctions(Name.identifier("test"), NoLookupLocation.FROM_BACKEND).firstOrNull()
+    val function =
+        targetClass.unsubstitutedMemberScope
+            .getContributedFunctions(Name.identifier("test"), NoLookupLocation.FROM_BACKEND)
+            .firstOrNull()
 
     println(function?.name)
-
-
-
 
     // val typemapper = codegen.state.typeMapper
     // val outerName = typemapper.classInternalName(targetClass)
@@ -74,14 +74,15 @@ class JvmBuilderCodegenExtension(
     //   Opcodes.ACC_PUBLIC or Opcodes.ACC_STATIC or Opcodes.ACC_FINAL
     // )
 
-    val init = builder.newMethod(
-      JvmDeclarationOrigin.NO_ORIGIN,
-      Opcodes.ACC_PUBLIC or Opcodes.ACC_OPEN,
-      "test",
-      "()Ljava/lang/String;",
-      null,
-      null
-    ).let(::InstructionAdapter)
+    val init =
+        builder.newMethod(
+            JvmDeclarationOrigin.NO_ORIGIN,
+            Opcodes.ACC_PUBLIC or Opcodes.ACC_OPEN,
+            "test",
+            "()Ljava/lang/String;",
+            null,
+            null)
+            .let(::InstructionAdapter)
 
     init.visitCode()
 

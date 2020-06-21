@@ -4,15 +4,14 @@ import de.derkalaender.jvmbuilder.annotations.JvmBuilder
 
 @JvmBuilder
 data class Example(
-  var requiredProp: Int,
-  var nullableProp: Boolean?,
-  val defaultProp: String = "someValue",
-  val defaultNullProp: String? = "shouldNotBeNull",
-  val defaultActualNullProp: String? = null
+    var requiredProp: Int,
+    var nullableProp: Boolean?,
+    val defaultProp: String = "someValue",
+    val defaultNullProp: String? = "shouldNotBeNull",
+    val defaultActualNullProp: String? = null
 ) {
   companion object {
-    @JvmStatic
-    fun builder(requiredProp: Int) = ExampleBuilder(requiredProp)
+    @JvmStatic fun builder(requiredProp: Int) = ExampleBuilder(requiredProp)
   }
 
   class ExampleBuilder(private val requiredProp: Int) {
@@ -42,6 +41,6 @@ data class Example(
     }
 
     fun build() =
-      Example(requiredProp, nullableProp, defaultProp, defaultNullProp, defaultActualNullProp)
+        Example(requiredProp, nullableProp, defaultProp, defaultNullProp, defaultActualNullProp)
   }
 }
