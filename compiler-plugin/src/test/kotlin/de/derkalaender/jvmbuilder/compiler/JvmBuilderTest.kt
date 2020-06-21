@@ -7,18 +7,48 @@ import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
+import io.kotest.matchers.string.shouldNotContain
 import org.jetbrains.kotlin.config.JvmTarget
 
 const val defaultAnnotation = "de.derkalaender.jvmbuilder.annotations.JvmBuilder"
 
 class JvmBuilderTest : StringSpec() {
   init {
+    "requires annotation" {
+      var result =
+          compile(
+              kotlin(
+                  "RequiresAnnotation.kt",
+                  """
+                  package de.derkalaender.jvmbuilder.test
+                  
+                  data class HasNotAnnotation(val someProp: String)
+                  """.trimIndent()))
+      result.exitCode shouldBe KotlinCompilation.ExitCode.OK
+      result.messages shouldNotContain "@JvmBuilder > Processing annotated class HasNotAnnotation"
+
+      result =
+          compile(
+              kotlin(
+                  "RequiresAnnotation.kt",
+                  """
+                  package de.derkalaender.jvmbuilder.test
+                  
+                  import de.derkalaender.jvmbuilder.annotations.JvmBuilder
+                  
+                  @JvmBuilder
+                  data class HasAnnotation(val someProp: String)
+                  """.trimIndent()))
+      result.exitCode shouldBe KotlinCompilation.ExitCode.OK
+      result.messages shouldContain "@JvmBuilder > Processing annotated class HasAnnotation"
+    }
+
     "any annotation works" {
       val result =
           compile(
               createCustomAnnotation("SomeAnnotation"),
               kotlin(
-                  "NonDataClass.kt",
+                  "SomeAnnotatedClass.kt",
                   """
                   package de.derkalaender.jvmbuilder.test
           
@@ -27,6 +57,7 @@ class JvmBuilderTest : StringSpec() {
                   """.trimIndent()),
               annotation = "de.derkalaender.jvmbuilder.test.SomeAnnotation")
       result.exitCode shouldBe KotlinCompilation.ExitCode.OK
+      result.messages shouldContain "@JvmBuilder > Processing annotated class SomeAnnotatedClass"
     }
 
     "data is required" {
@@ -43,8 +74,7 @@ class JvmBuilderTest : StringSpec() {
                   class NonDataClass
                   """.trimIndent()))
       result.exitCode shouldBe KotlinCompilation.ExitCode.COMPILATION_ERROR
-      result.messages shouldContain
-          "NonDataClass.kt: (5, 1): @JvmBuilder is only supported on data classes!"
+      result.messages shouldContain "@JvmBuilder > Only data classes are supported!"
     }
 
     "simple test" {
