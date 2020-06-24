@@ -1,0 +1,23 @@
+apply plugin: "org.jetbrains.kotlin.kapt"
+apply plugin: "java-gradle-plugin"
+
+jar {
+    archiveAppendix.set("gradle-plugin")
+}
+
+gradlePlugin {
+    plugins {
+        jvmBuilderPlugin {
+            id = "de.derkalaender.jvmbuilder.jvmbuilder-gradle-plugin"
+            implementationClass = "de.derkalaender.jvmbuilder.gradle.JvmBuilderGradlePlugin"
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin-api:$KOTLIN_VERSION"
+    compileOnly "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
+
+    compileOnly "com.google.auto.service:auto-service-annotations:$AUTOSERVICE_VERSION"
+    kapt "com.google.auto.service:auto-service:$AUTOSERVICE_VERSION"
+}

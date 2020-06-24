@@ -1,5 +1,9 @@
 apply plugin: "org.jetbrains.kotlin.kapt"
 
+jar {
+    archiveAppendix.set("compiler-plugin")
+}
+
 dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-compiler-embeddable:$KOTLIN_VERSION"
 

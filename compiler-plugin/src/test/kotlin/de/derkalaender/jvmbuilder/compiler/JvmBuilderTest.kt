@@ -123,7 +123,7 @@ class JvmBuilderTest : StringSpec() {
   }
 
   private fun createPluginOption(name: String, value: Any): PluginOption {
-    return PluginOption("jvm-builder-compiler-plugin", name, value.toString())
+    return PluginOption("jvmbuilder-compiler-plugin", name, value.toString())
   }
 
   private fun compile(

@@ -20,7 +20,7 @@ object CompilerKeys {
 
 @AutoService(CommandLineProcessor::class)
 class JvmBuilderCommandLineProcessor : CommandLineProcessor {
-  override val pluginId = "jvm-builder-compiler-plugin"
+  override val pluginId = "jvmbuilder-compiler-plugin"
 
   override val pluginOptions =
       listOf(

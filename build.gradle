@@ -7,6 +7,10 @@ subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "com.diffplug.gradle.spotless"
 
+    group = "de.derkalaender.jvmbuilder"
+    archivesBaseName = "jvmbuilder"
+    version = 0.1
+
     spotless {
         kotlin {
             ktfmt()
