@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "de.derkalaender.jvmbuilder:jvmbuilder-compiler-plugin-gradle"
+    }
+}
+
 plugins {
     id "org.jetbrains.kotlin.jvm" version "$KOTLIN_VERSION" apply false
     id "com.diffplug.gradle.spotless" version "$SPOTLESS_VERSION"
@@ -29,6 +40,15 @@ subprojects {
     compileKotlin {
         kotlinOptions {
             jvmTarget = "1.8"
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            dependencySubstitution {
+                substitute module("de.derkalaender.jvmbuilder:jvmbuilder-annotations") with project(":annotations")
+                substitute module("de.derkalaender.jvmbuilder:jvmbuilder-compiler-plugin") with project(":compiler-plugin")
+            }
         }
     }
 }

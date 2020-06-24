@@ -1,9 +1,13 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.3.72"
+}
+
 apply plugin: "org.jetbrains.kotlin.kapt"
 apply plugin: "java-gradle-plugin"
 
-jar {
-    archiveAppendix.set("gradle-plugin")
-}
+group = "de.derkalaender.jvmbuilder"
+archivesBaseName = "jvmbuilder-gradle-plugin"
+version = 0.1
 
 gradlePlugin {
     plugins {
@@ -14,10 +18,15 @@ gradlePlugin {
     }
 }
 
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin-api:$KOTLIN_VERSION"
-    compileOnly "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
+repositories {
+    mavenCentral()
+    jcenter()
+}
 
-    compileOnly "com.google.auto.service:auto-service-annotations:$AUTOSERVICE_VERSION"
-    kapt "com.google.auto.service:auto-service:$AUTOSERVICE_VERSION"
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.3.72"
+    compileOnly "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
+
+    compileOnly "com.google.auto.service:auto-service-annotations:1.0-rc6"
+    kapt "com.google.auto.service:auto-service:1.0-rc6"
 }

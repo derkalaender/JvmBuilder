@@ -1,3 +1,9 @@
 rootProject.name = "JvmBuilder"
 
-include ":compiler-plugin", ":annotations", ":gradle-plugin"
+include ":compiler-plugin", ":annotations", ":sample"
+
+includeBuild("gradle-plugin") {
+    dependencySubstitution {
+        substitute module("de.derkalaender.jvmbuilder:jvmbuilder-compiler-plugin-gradle") with project(":")
+    }
+}
